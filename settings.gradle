@@ -1,0 +1,3 @@
+rootProject.name = "CredentialsLibrary"
+include ':app'
+include ':FFRegistration'
