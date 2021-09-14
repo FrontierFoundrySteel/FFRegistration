@@ -3,6 +3,7 @@ package com.example.ffregistration.General
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 
 class MyApplication : Application() {
 
@@ -19,6 +20,7 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Toast.makeText(applicationContext,"Application class ran",Toast.LENGTH_SHORT).show()
         Log.d("MyApplication ", " start")
     }
 }
