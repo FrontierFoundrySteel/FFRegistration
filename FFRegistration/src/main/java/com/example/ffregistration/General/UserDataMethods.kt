@@ -26,7 +26,6 @@ import androidx.core.content.PermissionChecker
 import androidx.multidex.BuildConfig
 import com.ffsteel.ffpractice_app1.Models.UserRegistrationResponseDataModel
 import com.ffsteel.ffpractice_app1.Services.RetrofitInterfaces
-import com.ffsteel.ffpractice_app1.Services.ServiceBuilder
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -38,6 +37,7 @@ import com.example.ffregistration.General.PrefManager
 import com.example.ffregistration.General.UserDataMethods.getAppName
 import com.example.ffregistration.General.Util
 import com.example.ffregistration.R
+import com.example.ffregistration.Services.ServiceBuilder
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
@@ -367,7 +367,6 @@ object UserDataMethods {
                     getEmail(context) + "", context.getAppName() + " User", getDeviceName() + "",  "", getIMEI(context) + "",
                     "0", string_location + "", string_city + "", string_state + "", string_country + "", stringLatitude + "", stringLongitude + "", currentVersion() + "", result + "", PrefManager(context).GetFireStoreP() + "")
 
-                //context.resources.getString(R.string.screen_type)
                 requestCall.enqueue(object : Callback<List<UserRegistrationResponseDataModel>> {
                     override fun onResponse(call: Call<List<UserRegistrationResponseDataModel>>, response: Response<List<UserRegistrationResponseDataModel>>) {
                         if (response.isSuccessful) {
