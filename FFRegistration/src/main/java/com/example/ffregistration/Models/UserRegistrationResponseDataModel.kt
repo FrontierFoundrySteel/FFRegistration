@@ -16,7 +16,6 @@ data class UserRegistrationResponseDataModel(
     var ip: String,
     @SerializedName("port")
     var port: String
-
 )
 
 

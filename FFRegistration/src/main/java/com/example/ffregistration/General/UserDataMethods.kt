@@ -146,7 +146,7 @@ object UserDataMethods {
         }
     }
 
-    private fun LocationRequest(context: Context) {
+    private fun LocationRequest(context: Context,url:String) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) ==
                 PermissionChecker.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ==
@@ -159,22 +159,24 @@ object UserDataMethods {
                     stringLatitude = locationLatitude.toString()
                     stringLongitude = locationLongitude.toString()
                     if (stringLatitude != "0.0" && stringLongitude != "0.0") {
-                        LocationRetreive(locationLatitude, locationLongitude, context)
-                    } else {
-                        Toast.makeText(context,
-                                "Please turn on any GPS or location service and restart to use the app", Toast.LENGTH_SHORT).show()
+                        LocationRetreive(locationLatitude, locationLongitude, context,url)
                     }
-                } else {
-                    Toast.makeText(context,
-                            "Please turn on any GPS or location service and restart to use the app", Toast.LENGTH_SHORT).show()
+                    else {
+                        Toast.makeText(context, "Please turn on any GPS or location service and restart to use the app", Toast.LENGTH_SHORT).show()
+                    }
                 }
-            })
-        } else {
-            LocationPremissionCheck(context)
+                else {
+                    Toast.makeText(context, "Please turn on any GPS or location service and restart to use the app", Toast.LENGTH_SHORT).show()
+                }
+            }
+            )
+        }
+        else {
+            LocationPremissionCheck(context,url)
         }
     }
 
-    private fun LocationRetreive(locationLatitude: Double, locationLongitude: Double, context: Context) {
+    private fun LocationRetreive(locationLatitude: Double, locationLongitude: Double, context: Context,url:String) {
         try {
             val geocoder = Geocoder(context, Locale.getDefault())
             val addresses = geocoder.getFromLocation(locationLatitude, locationLongitude, 1)
@@ -186,30 +188,34 @@ object UserDataMethods {
                 if (string_country == null) {
                     if (string_state != null) {
                         string_country = string_state
-                    } else if (string_city != null) {
+                    }
+                    else if (string_city != null) {
                         string_country = string_city
-                    } else {
+                    }
+                    else {
                         string_country = "null"
                     }
                 }
                 if (string_city == null) {
                     if (string_state != null) {
                         string_city = string_state
-                    } else {
+                    }
+                    else {
                         string_city = string_country
                     }
                 }
                 if (string_state == null) {
                     if (string_city != null) {
                         string_state = string_city
-                    } else {
+                    }
+                    else {
                         string_state = string_country
                     }
                 }
                 if (string_location == null) {
                     string_location = "Null"
                 }
-                InitialRegistration(context).execute()
+                InitialRegistrationAT(context,url).execute()
 
             }
         } catch (e: IOException) {
@@ -239,7 +245,7 @@ object UserDataMethods {
         return false
     }
 
-    fun LocationPremissionCheck(contexts: Context) {
+    fun LocationPremissionCheck(contexts: Context,url: String) {
         val permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
         val rationale = "Please provide location permission so that you can ..."
         val options: Permissions.Options = Permissions.Options()
@@ -247,20 +253,20 @@ object UserDataMethods {
                 .setSettingsDialogTitle("Warning")
         Permissions.check(contexts /*context*/, permissions, null /*rationale*/, null /*options*/, object : PermissionHandler() {
             override fun onGranted() {
-                LocationRequest(contexts)
+                LocationRequest(contexts,url)
             }
 
             override fun onDenied(context: Context?, deniedPermissions: ArrayList<String?>?) {
                 super.onDenied(context, deniedPermissions)
-                LocationPremissionCheck(contexts)
+                LocationPremissionCheck(contexts,url)
             }
         })
     }
 
-    fun updateHCMUserIDRetroCorou(context: Context) = CoroutineScope(Dispatchers.IO).launch {
+    fun updateHCMUserIDRetroCorou(context: Context,url: String) = CoroutineScope(Dispatchers.IO).launch {
         try {
 
-            val updateHCMUserIDInterfaceService= ServiceBuilder.buildService(RetrofitInterfaces::class.java)
+            val updateHCMUserIDInterfaceService= ServiceBuilder(url).buildService(RetrofitInterfaces::class.java)
             val response=updateHCMUserIDInterfaceService.updateHCMUserID(PrefManager(context).GetFireStoreP()+"",PrefManager(context).GetEmpId()+"", getIMEI(context)+"")
 
             if(response.isSuccessful) {
@@ -288,10 +294,10 @@ object UserDataMethods {
         }
     }
 
-    fun sendNotificationRetroCorou(context: Context,HCMUserID	: String,jobcardNo: String) = CoroutineScope(Dispatchers.IO).launch {
+    fun sendNotificationRetroCorou(context: Context, HCMUserID: String, jobcardNo: String,url:String) = CoroutineScope(Dispatchers.IO).launch {
         try {
 
-            val updateHCMUserIDInterfaceService= ServiceBuilder.buildService(RetrofitInterfaces::class.java)
+            val updateHCMUserIDInterfaceService= ServiceBuilder(url).buildService(RetrofitInterfaces::class.java)
             val response=updateHCMUserIDInterfaceService.sendNotification(PrefManager(context).GetFireStoreP()+"",HCMUserID+"", "Jobcard ($jobcardNo) needs approval!",PrefManager(context).GetName()+"")
 
             if(response.isSuccessful) {
@@ -319,17 +325,16 @@ object UserDataMethods {
         }
     }
 
-    class InitialRegistration(cntxt: Context) : CoroutineAsyncTask<String?, String?, String?>() {
+    class InitialRegistrationAT(cntxt: Context,URL:String) : CoroutineAsyncTask<String?, String?, String?>() {
         var z = ""
         var isSuccess = false
-        var rs: ResultSet? = null
-        var params0: String? = null
-        var params1: String? = null
         var pd: ProgressDialog? = null
         var context: Context
+        var url: String
 
         init {
             context=cntxt
+            url=URL
         }
 
         override fun onPreExecute() {
@@ -337,43 +342,37 @@ object UserDataMethods {
             pd = ProgressDialog(context)
             pd?.setMessage("Initial Registration....")
             pd?.show()
-
         }
 
         override fun onPostExecute(s: String?) {
             super.onPostExecute(s)
             pd?.dismiss()
             if(isSuccess){
-
+                Toast.makeText(context,"$z.", Toast.LENGTH_SHORT).show()
             }
             else{
-                Toast.makeText(context,"InitialRegistration $z", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"$z", Toast.LENGTH_SHORT).show()
             }
         }
 
         override fun doInBackground(vararg params: String?): String? {
-            params0 = params[0]
-            params1 = params[1]
             try {
                 val ShortTokkenID = PrefManager(context).GetTokkenId().toString().split(":".toRegex()).toTypedArray()
                 ShortTokkenID[0]
                 val result = when(isDeviceRooted()) {
                     true -> "YES"
                     false -> "NO"}
-                val destinationService = ServiceBuilder.buildService(RetrofitInterfaces::class.java)
+                val destinationService = ServiceBuilder(url).buildService(RetrofitInterfaces::class.java)
                 val requestCall = destinationService.addUser(PrefManager(context).GetTokkenId() + "", ShortTokkenID[0] + "", PrefManager(context).GetPackageName() + "", context.getAppName() + "", BuildConfig.VERSION_CODE.toString() + "",
                     getEmail(context) + "", context.getAppName() + " User", getDeviceName() + "",  "", getIMEI(context) + "",
                     "0", string_location + "", string_city + "", string_state + "", string_country + "", stringLatitude + "", stringLongitude + "", currentVersion() + "", result + "", PrefManager(context).GetFireStoreP() + "")
 
                 //context.resources.getString(R.string.screen_type)
                 requestCall.enqueue(object : Callback<List<UserRegistrationResponseDataModel>> {
-
                     override fun onResponse(call: Call<List<UserRegistrationResponseDataModel>>, response: Response<List<UserRegistrationResponseDataModel>>) {
                         if (response.isSuccessful) {
                             //finish() // Move back to DestinationListActivity
-
                             Log.d("Credentials007", "  ${response.body()?.get(0)?.response}")
-
                             PrefManager(context).SetDataBaseName(response.body()?.get(0)?.database)
                             PrefManager(context).SetUserName(response.body()?.get(0)?.user)
                             PrefManager(context).SetDataBasePassword(response.body()?.get(0)?.password)
@@ -390,26 +389,32 @@ object UserDataMethods {
 
                             var newlyCreatedDestination = response.body() // Use it or ignore it
                             Toast.makeText(context, response.body()?.get(0)?.response + "", Toast.LENGTH_LONG).show()
+                            z=response.body()?.get(0)?.response.toString()
+
                         } else {
                             Toast.makeText(context, "Failed to Register!", Toast.LENGTH_LONG).show()
+                            z="Failed to Register!"
+                            isSuccess=false
+                            return
                         }
                     }
 
                     override fun onFailure(call: Call<List<UserRegistrationResponseDataModel>>, t: Throwable) {
                         Toast.makeText(context, "Failed to Register!! " + t, Toast.LENGTH_LONG).show()
+                        z="Failed to Register!! "
+                        isSuccess=false
+                        return
                     }
-                }
-                )
-
+                })
                 isSuccess=true
             }
             catch (ex: Exception) {
                 isSuccess = false
                 z = "Exceptions$ex"
-
                 Log.d("InitialRegistration", "IR "+z)
             }
             return z
         }
     }
+
 }
