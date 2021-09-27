@@ -363,11 +363,17 @@ object UserDataMethods {
                     true -> "YES"
                     false -> "NO"}
                 val destinationService = ServiceBuilder(url).buildService(RetrofitInterfaces::class.java)
+
+                val requestCall = destinationService.addUser("32111", "1", "CRM", "Importam",  "1",
+                    "iqaiserhus", "import user" + " User", "SMT85",  "Smartphone", "ZZZZz",
+                    "0",  "Malamjaba",  "Malakand", "Kpk", "Pakistan", "jhg", "kjh",  "Oreo",  "Nope",  "FF_Steel_!@#\$%")
+
+/*
                 val requestCall = destinationService.addUser(PrefManager(context).GetTokkenId() + "", ShortTokkenID[0] + "", PrefManager(context).GetPackageName() + "", context.getAppName() + "", BuildConfig.VERSION_CODE.toString() + "",
                     getEmail(context) + "", context.getAppName() + " User", getDeviceName() + "",  "NILL", getIMEI(context) + "",
                     "0", string_location + "", string_city + "", string_state + "", string_country + "", stringLatitude + "", stringLongitude + "", currentVersion() + "", result + "", PrefManager(context).GetFireStoreP() + "")
 
-                requestCall.enqueue(object : Callback<List<UserRegistrationResponseDataModel>> {
+  */              requestCall.enqueue(object : Callback<List<UserRegistrationResponseDataModel>> {
                     override fun onResponse(call: Call<List<UserRegistrationResponseDataModel>>, response: Response<List<UserRegistrationResponseDataModel>>) {
                         if (response.isSuccessful) {
                             //finish() // Move back to DestinationListActivity
