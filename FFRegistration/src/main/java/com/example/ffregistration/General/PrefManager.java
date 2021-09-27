@@ -454,7 +454,7 @@ public class PrefManager {
     public String GetAppVersionCode() {
         String VersionCode = "0";
         try {
-            VersionCode = Integer.toString(Integer.parseInt(_context.getPackageManager().getPackageInfo( _context.getPackageName(), 0 ).versionName));
+            VersionCode = Integer.toString(Integer.parseInt(String.valueOf(_context.getPackageManager().getPackageInfo( _context.getPackageName(), 0 ).versionCode)));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
