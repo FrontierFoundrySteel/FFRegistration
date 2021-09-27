@@ -370,7 +370,7 @@ object UserDataMethods {
                     "0",  "Malamjaba",  "Malakand", "Kpk", "Pakistan", "jhg", "kjh",  "Oreo",  "Nope",  "FF_Steel_!@#\$%")
 */
 
-                val requestCall = destinationService.addUser(PrefManager(context).GetTokkenId() + "", ShortTokkenID[0] + "", PrefManager(context).GetPackageName() + "", context.getAppName() + "", BuildConfig.VERSION_CODE.toString() + "",
+                val requestCall = destinationService.addUser(PrefManager(context).GetTokkenId() + "", ShortTokkenID[0] + "", context.packageName + "", context.getAppName() + "", PrefManager(context).GetAppVersionCode() + "",
                     getEmail(context) + "", context.getAppName() + " User", getDeviceName() + "",  "NILL", getIMEI(context) + "",
                     "0", string_location + "", string_city + "", string_state + "", string_country + "", stringLatitude + "", stringLongitude + "", currentVersion() + "", result + "", PrefManager(context).GetFireStoreP() + "")
 

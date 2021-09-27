@@ -159,19 +159,10 @@ public class PrefManager {
         this.editor.commit();
     }
 
-    public String GetFireStoreLinkbu()
-    {
-        return  this.pref.getString( FireStoreLinkbu,"https://ff.com.pk/FCM/" );
-    }
-    public void SetFireStoreLinkbuk(String FireStoreLinkbu)
-    {
-        this.editor.putString( PrefManager.FireStoreLinkbu,FireStoreLinkbu );
-        this.editor.commit();
-    }
 
     public String GetTokkenId()
     {
-        return  this.pref.getString( TokkenId,"null" );
+        return  this.pref.getString( TokkenId,"nill" );
     }
     public void SetTokkenId(String TokkenId)
     {
@@ -181,22 +172,14 @@ public class PrefManager {
 
     public String GetFireStoreP()
     {
-        return  this.pref.getString( FireStoreP,"null" );
+        return  this.pref.getString( FireStoreP,"nill" );
     }
     public void SetFireStoreP(String FireStoreP)
     {
         this.editor.putString( PrefManager.FireStoreP,FireStoreP );
         this.editor.commit();
     }
-    public String GetFireStorePbu()
-    {
-        return  this.pref.getString( FireStorePbu,"FF_Steel_!@#$%" );
-    }
-    public void GetFireStorePbu(String FireStorePbu)
-    {
-        this.editor.putString( PrefManager.FireStorePbu,FireStorePbu );
-        this.editor.commit();
-    }
+
 
     public String GetFireStoreLink()
     {
@@ -208,25 +191,7 @@ public class PrefManager {
         this.editor.commit();
     }
 
-    public String GetEid()
-    {
-        return  this.pref.getString( JobCardEmpId,"" );
-    }
-    public void SetJobCardEmpId(String JobCardEmpId)
-    {
-        this.editor.putString( PrefManager.JobCardEmpId,JobCardEmpId );
-        this.editor.commit();
-    }
 
-    public String GetJobCardCode()
-    {
-        return  this.pref.getString( JobCardCode,"" );
-    }
-    public void SetJobCardCode(String JobCardCode)
-    {
-        this.editor.putString( PrefManager.JobCardCode,JobCardCode );
-        this.editor.commit();
-    }
 
     public String GetEmpId() {
         return this.pref.getString( EmpId, "0" );
@@ -489,7 +454,7 @@ public class PrefManager {
     public String GetAppVersionCode() {
         String VersionCode = "0";
         try {
-            VersionCode = Integer.toString( _context.getPackageManager().getPackageInfo( _context.getPackageName(), 0 ).versionCode );
+            VersionCode = Integer.toString(Integer.parseInt(_context.getPackageManager().getPackageInfo( _context.getPackageName(), 0 ).versionName));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -502,24 +467,6 @@ public class PrefManager {
         this.editor.commit();
     }
 
-    public String GetWhatsNew() {
-        return this.pref.getString( CheckWhatsNewUpdate, "1" );
-    }
-
-    public void SetWhatsNew(String CheckWhatsNewUpdate) {
-        this.editor.putString( PrefManager.CheckWhatsNewUpdate, CheckWhatsNewUpdate );
-        this.editor.commit();
-    }
-
-
-    public String GetCheckLastQoutationFromWhere() {
-        return this.pref.getString( CheckLastQoutationFromWhere, "FromDashBoard" );
-    }
-
-    public void SetCheckLastQoutationFromWhere(String CheckLastQoutationFromWhere) {
-        this.editor.putString( PrefManager.CheckLastQoutationFromWhere, CheckLastQoutationFromWhere );
-        this.editor.commit();
-    }
 
 
     public String GetCheckLastQoutationNo() {
