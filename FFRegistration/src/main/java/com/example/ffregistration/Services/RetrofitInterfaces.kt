@@ -32,7 +32,7 @@ interface RetrofitInterfaces {
 
     //IN USE
     @FormUrlEncoded
-    @POST("user_registration.php") //UserRegistration.php
+    @POST("register.php") //UserRegistration.php
      fun addUser(@Field("TokkenID")  TokkenID:String,
                 @Field("ShortTokkenID")  ShortTokkenID:String,
                 @Field("AppID")  AppID:String,
