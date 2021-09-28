@@ -394,7 +394,7 @@ object UserDataMethods {
                             if(response.body()?.get(0)?.response =="You need to be registered!null"){
                                 PrefManager(context).SetUserNo(response.body()?.get(0)?.userid)
                             }
-                            UserIdTV.setText(response.body()?.get(0)?.userid)
+                            UserIdTV.setText(PrefManager(context).GetUserNo())
                             z=response.body()?.get(0)?.response.toString()
 
                         } else {
