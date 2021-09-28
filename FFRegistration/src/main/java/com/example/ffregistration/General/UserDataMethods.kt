@@ -19,6 +19,7 @@ import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -146,7 +147,7 @@ object UserDataMethods {
         }
     }
 
-    private fun LocationRequest(context: Context,url:String) {
+    private fun LocationRequest(context: Context,url:String,UserIdTV:TextView) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) ==
                 PermissionChecker.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ==
@@ -159,7 +160,7 @@ object UserDataMethods {
                     stringLatitude = locationLatitude.toString()
                     stringLongitude = locationLongitude.toString()
                     if (stringLatitude != "0.0" && stringLongitude != "0.0") {
-                        LocationRetreive(locationLatitude, locationLongitude, context,url)
+                        LocationRetreive(locationLatitude, locationLongitude, context,url,UserIdTV)
                     }
                     else {
                         Toast.makeText(context, "Please turn on any GPS or location service and restart to use the app", Toast.LENGTH_SHORT).show()
@@ -172,11 +173,11 @@ object UserDataMethods {
             )
         }
         else {
-            LocationPremissionCheck(context,url)
+            LocationPremissionCheck(context,url,UserIdTV)
         }
     }
 
-    private fun LocationRetreive(locationLatitude: Double, locationLongitude: Double, context: Context,url:String) {
+    private fun LocationRetreive(locationLatitude: Double, locationLongitude: Double, context: Context,url:String,UserIdTV:TextView) {
         try {
             val geocoder = Geocoder(context, Locale.getDefault())
             val addresses = geocoder.getFromLocation(locationLatitude, locationLongitude, 1)
@@ -215,7 +216,7 @@ object UserDataMethods {
                 if (string_location == null) {
                     string_location = "Null"
                 }
-                InitialRegistrationAT(context,url).execute()
+                InitialRegistrationAT(context,url,UserIdTV).execute()
 
             }
         } catch (e: IOException) {
@@ -245,7 +246,7 @@ object UserDataMethods {
         return false
     }
 
-    fun LocationPremissionCheck(contexts: Context,url: String) {
+    fun LocationPremissionCheck(contexts: Context,url: String,UserIdTV:TextView) {
         val permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
         val rationale = "Please provide location permission so that you can ..."
         val options: Permissions.Options = Permissions.Options()
@@ -253,12 +254,12 @@ object UserDataMethods {
                 .setSettingsDialogTitle("Warning")
         Permissions.check(contexts /*context*/, permissions, null /*rationale*/, null /*options*/, object : PermissionHandler() {
             override fun onGranted() {
-                LocationRequest(contexts,url)
+                LocationRequest(contexts,url,UserIdTV)
             }
 
             override fun onDenied(context: Context?, deniedPermissions: ArrayList<String?>?) {
                 super.onDenied(context, deniedPermissions)
-                LocationPremissionCheck(contexts,url)
+                LocationPremissionCheck(contexts,url,UserIdTV)
             }
         })
     }
@@ -325,16 +326,18 @@ object UserDataMethods {
         }
     }
 
-    class InitialRegistrationAT(cntxt: Context,URL:String) : CoroutineAsyncTask<String?, String?, String?>() {
+    class InitialRegistrationAT(cntxt: Context,URL:String,UserId:TextView) : CoroutineAsyncTask<String?, String?, String?>() {
         var z = ""
         var isSuccess = false
         var pd: ProgressDialog? = null
         var context: Context
         var url: String
+        var UserIdTV:TextView
 
         init {
             context=cntxt
             url=URL
+            UserIdTV=UserId
         }
 
         override fun onPreExecute() {
@@ -363,12 +366,6 @@ object UserDataMethods {
                     true -> "YES"
                     false -> "NO"}
                 val destinationService = ServiceBuilder(url).buildService(RetrofitInterfaces::class.java)
-/*
-
-                val requestCall = destinationService.addUser("32111", "1", "CRM", "Importam",  "1",
-                    "iqaiserhus", "import user" + " User", "SMT85",  "Smartphone", "ZZZZz",
-                    "0",  "Malamjaba",  "Malakand", "Kpk", "Pakistan", "jhg", "kjh",  "Oreo",  "Nope",  "FF_Steel_!@#\$%")
-*/
 
                 val requestCall = destinationService.addUser(PrefManager(context).GetTokkenId() + "", ShortTokkenID[0] + "", context.packageName + "", context.getAppName() + "", PrefManager(context).GetAppVersionCode() + "",
                     getEmail(context) + "", context.getAppName() + " User", getDeviceName() + "",  "NILL", getIMEI(context) + "",
@@ -395,6 +392,7 @@ object UserDataMethods {
 
                             var newlyCreatedDestination = response.body() // Use it or ignore it
                             Toast.makeText(context, response.body()?.get(0)?.response + "", Toast.LENGTH_LONG).show()
+                            UserIdTV.setText(response.body()?.get(0)?.userid)
                             z=response.body()?.get(0)?.response.toString()
 
                         } else {
