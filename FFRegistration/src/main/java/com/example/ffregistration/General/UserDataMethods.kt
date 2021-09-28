@@ -366,9 +366,8 @@ object UserDataMethods {
                     true -> "YES"
                     false -> "NO"}
                 val destinationService = ServiceBuilder(url).buildService(RetrofitInterfaces::class.java)
-
                 val requestCall = destinationService.addUser(PrefManager(context).GetTokkenId() + "", ShortTokkenID[0] + "", context.packageName + "", context.getAppName() + "", PrefManager(context).GetAppVersionCode() + "",
-                    getEmail(context) + "", context.getAppName() + " User", getDeviceName() + "",  "NILL", getIMEI(context) + "",
+                    getEmail(context) + "", context.getAppName() + " User", getDeviceName() + "", context.getString(R.string.screen_type), getIMEI(context) + "",
                     "0", string_location + "", string_city + "", string_state + "", string_country + "", stringLatitude + "", stringLongitude + "", currentVersion() + "", result + "", PrefManager(context).GetFireStoreP() + "")
 
                 requestCall.enqueue(object : Callback<List<UserRegistrationResponseDataModel>> {
