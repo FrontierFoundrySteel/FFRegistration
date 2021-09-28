@@ -391,7 +391,7 @@ object UserDataMethods {
 
                             var newlyCreatedDestination = response.body() // Use it or ignore it
                             Toast.makeText(context, response.body()?.get(0)?.response + "", Toast.LENGTH_LONG).show()
-                            if(response.body()?.get(0)?.response =="You need to be registered!"){
+                            if(response.body()?.get(0)?.response =="You need to be registered!null"){
                                 PrefManager(context).SetUserNo(response.body()?.get(0)?.userid)
                             }
                             UserIdTV.setText(PrefManager(context).GetUserNo())
