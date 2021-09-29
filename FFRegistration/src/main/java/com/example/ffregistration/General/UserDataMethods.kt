@@ -351,10 +351,10 @@ object UserDataMethods {
             super.onPostExecute(s)
             //pd?.dismiss()
             if(isSuccess){
-                Toast.makeText(context,"$z.", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context,"$z.", Toast.LENGTH_SHORT).show()
             }
             else{
-                Toast.makeText(context,"$z", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context,"$z", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -402,8 +402,7 @@ object UserDataMethods {
                             var newlyCreatedDestination = response.body() // Use it or ignore it
                             Toast.makeText(context, response.body()?.get(0)?.response + "", Toast.LENGTH_LONG).show()
                             if(response.body()?.get(0)?.response =="You need to be registered!null"){
-                                Storage(context)
-                                    .SetUserNo(response.body()?.get(0)?.userid)
+                                Storage(context).SetUserNo(response.body()?.get(0)?.userid)
                             }
                             UserIdTV.setText(Storage(context).GetUserNo())
                             z=response.body()?.get(0)?.response.toString()
