@@ -24,7 +24,6 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
-import androidx.multidex.BuildConfig
 import com.ffsteel.ffpractice_app1.Models.UserRegistrationResponseDataModel
 import com.ffsteel.ffpractice_app1.Services.RetrofitInterfaces
 import com.google.android.gms.common.ConnectionResult
@@ -34,18 +33,11 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.nabinbhandari.android.permissions.PermissionHandler
 import com.nabinbhandari.android.permissions.Permissions
 //import ff.steel.procurement.BuildConfig
-import com.example.ffregistration.General.PrefManager
-import com.example.ffregistration.General.UserDataMethods.getAppName
-import com.example.ffregistration.General.Util
 import com.example.ffregistration.R
 import com.example.ffregistration.Services.ServiceBuilder
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.*
 import retrofit2.*
 import java.io.IOException
-import java.sql.ResultSet
 import java.util.*
 
 object UserDataMethods {
@@ -268,7 +260,11 @@ object UserDataMethods {
         try {
 
             val updateHCMUserIDInterfaceService= ServiceBuilder(url).buildService(RetrofitInterfaces::class.java)
-            val response=updateHCMUserIDInterfaceService.updateHCMUserID(PrefManager(context).GetFireStoreP()+"",PrefManager(context).GetEmpId()+"", getIMEI(context)+"")
+            val response=updateHCMUserIDInterfaceService.updateHCMUserID(
+                Storage(
+                    context
+                ).GetFireStoreP()+"",
+                Storage(context).GetEmpId()+"", getIMEI(context)+"")
 
             if(response.isSuccessful) {
                 var updateHCMUserIDrespobody = response.body() // Use it or ignore it
@@ -299,7 +295,11 @@ object UserDataMethods {
         try {
 
             val updateHCMUserIDInterfaceService= ServiceBuilder(url).buildService(RetrofitInterfaces::class.java)
-            val response=updateHCMUserIDInterfaceService.sendNotification(PrefManager(context).GetFireStoreP()+"",HCMUserID+"", "Jobcard ($jobcardNo) needs approval!",PrefManager(context).GetName()+"")
+            val response=updateHCMUserIDInterfaceService.sendNotification(
+                Storage(
+                    context
+                ).GetFireStoreP()+"",HCMUserID+"", "Jobcard ($jobcardNo) needs approval!",
+                Storage(context).GetName()+"")
 
             if(response.isSuccessful) {
                 var notificationRespobody = response.body() // Use it or ignore it
@@ -344,12 +344,12 @@ object UserDataMethods {
             super.onPreExecute()
             pd = ProgressDialog(context)
             pd?.setMessage("Initial Registration....")
-            pd?.show()
+            //pd?.show()
         }
 
         override fun onPostExecute(s: String?) {
             super.onPostExecute(s)
-            pd?.dismiss()
+            //pd?.dismiss()
             if(isSuccess){
                 Toast.makeText(context,"$z.", Toast.LENGTH_SHORT).show()
             }
@@ -360,41 +360,52 @@ object UserDataMethods {
 
         override fun doInBackground(vararg params: String?): String? {
             try {
-                val ShortTokkenID = PrefManager(context).GetTokkenId().toString().split(":".toRegex()).toTypedArray()
+                val ShortTokkenID = Storage(context).GetTokkenId().toString().split(":".toRegex()).toTypedArray()
                 ShortTokkenID[0]
                 val result = when(isDeviceRooted()) {
                     true -> "YES"
                     false -> "NO"}
                 val destinationService = ServiceBuilder(url).buildService(RetrofitInterfaces::class.java)
-                val requestCall = destinationService.addUser(PrefManager(context).GetTokkenId() + "", ShortTokkenID[0] + "", context.packageName + "", context.getAppName() + "", PrefManager(context).GetAppVersionCode() + "",
+                val requestCall = destinationService.addUser(
+                    Storage(context).GetTokkenId() + "", ShortTokkenID[0] + "", context.packageName + "", context.getAppName() + "", Storage(
+                        context
+                    ).GetAppVersionCode() + "",
                     getEmail(context) + "", context.getAppName() + " User", getDeviceName() + "", context.getString(R.string.screen_type), getIMEI(context) + "",
-                    "0", string_location + "", string_city + "", string_state + "", string_country + "", stringLatitude + "", stringLongitude + "", currentVersion() + "", result + "", PrefManager(context).GetFireStoreP() + "")
+                    "0", string_location + "", string_city + "", string_state + "", string_country + "", stringLatitude + "", stringLongitude + "", currentVersion() + "", result + "", Storage(
+                        context
+                    ).GetFireStoreP() + "")
 
                 requestCall.enqueue(object : Callback<List<UserRegistrationResponseDataModel>> {
                     override fun onResponse(call: Call<List<UserRegistrationResponseDataModel>>, response: Response<List<UserRegistrationResponseDataModel>>) {
                         if (response.isSuccessful) {
                             //finish() // Move back to DestinationListActivity
                             Log.d("Credentials007", "  ${response.body()?.get(0)?.response}")
-                            PrefManager(context).SetDataBaseName(response.body()?.get(0)?.database)
-                            PrefManager(context).SetUserName(response.body()?.get(0)?.user)
-                            PrefManager(context).SetDataBasePassword(response.body()?.get(0)?.password)
-                            PrefManager(context).SetIPAddress(response.body()?.get(0)?.ip)
-                            PrefManager(context).SetPort(response.body()?.get(0)?.port)
+                            Storage(context)
+                                .SetDataBaseName(response.body()?.get(0)?.database)
+                            Storage(context)
+                                .SetUserName(response.body()?.get(0)?.user)
+                            Storage(context)
+                                .SetDataBasePassword(response.body()?.get(0)?.password)
+                            Storage(context)
+                                .SetIPAddress(response.body()?.get(0)?.ip)
+                            Storage(context)
+                                .SetPort(response.body()?.get(0)?.port)
 
-                            val ip = PrefManager(context).GetIPAddress()
-                            val db = PrefManager(context).GetDataBaseName()
-                            val un = PrefManager(context).GetUserName()
-                            val password = PrefManager(context).GetDataBasePassword()
-                            val port = PrefManager(context).GetPort()
+                            val ip = Storage(context).GetIPAddress()
+                            val db = Storage(context).GetDataBaseName()
+                            val un = Storage(context).GetUserName()
+                            val password = Storage(context).GetDataBasePassword()
+                            val port = Storage(context).GetPort()
 
                             Log.d("Credentials", " $ip $db $un $password $port ${response.body()?.get(0)?.response}")
 
                             var newlyCreatedDestination = response.body() // Use it or ignore it
                             Toast.makeText(context, response.body()?.get(0)?.response + "", Toast.LENGTH_LONG).show()
                             if(response.body()?.get(0)?.response =="You need to be registered!null"){
-                                PrefManager(context).SetUserNo(response.body()?.get(0)?.userid)
+                                Storage(context)
+                                    .SetUserNo(response.body()?.get(0)?.userid)
                             }
-                            UserIdTV.setText(PrefManager(context).GetUserNo())
+                            UserIdTV.setText(Storage(context).GetUserNo())
                             z=response.body()?.get(0)?.response.toString()
 
                         } else {

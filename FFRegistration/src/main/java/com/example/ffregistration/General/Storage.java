@@ -11,7 +11,7 @@ import androidx.security.crypto.MasterKeys;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-public class PrefManager {
+public class Storage {
 
     public static final String TokkenId      = "TokkenId";
     public static final String FireStoreP    = "FireStoreP";
@@ -41,7 +41,7 @@ public class PrefManager {
     SharedPreferences pref;
 
     @SuppressLint({"CommitPrefEdits"})
-    public PrefManager(Context context) {
+    public Storage(Context context) {
         this.PRIVATE_MODE = 0;
         this._context = context;
         {
@@ -72,7 +72,7 @@ public class PrefManager {
     }
     public void SetPackageName(String PackageName)
     {
-        this.editor.putString( PrefManager.PackageName,PackageName );
+        this.editor.putString( Storage.PackageName,PackageName );
         this.editor.commit();
     }
 
@@ -82,7 +82,7 @@ public class PrefManager {
     }
     public void SetTokkenId(String TokkenId)
     {
-        this.editor.putString( PrefManager.TokkenId,TokkenId );
+        this.editor.putString( Storage.TokkenId,TokkenId );
         this.editor.commit();
     }
 
@@ -92,7 +92,7 @@ public class PrefManager {
     }
     public void SetFireStoreP(String FireStoreP)
     {
-        this.editor.putString( PrefManager.FireStoreP,FireStoreP );
+        this.editor.putString( Storage.FireStoreP,FireStoreP );
         this.editor.commit();
     }
 
@@ -102,7 +102,7 @@ public class PrefManager {
     }
     public void SetUserNo(String UserNo)
     {
-        this.editor.putString( PrefManager.UserNo,UserNo );
+        this.editor.putString( Storage.UserNo,UserNo );
         this.editor.commit();
     }
 
@@ -112,7 +112,7 @@ public class PrefManager {
     }
     public void SetFireStoreLink(String FireStoreLink)
     {
-        this.editor.putString( PrefManager.FireStoreLink,FireStoreLink );
+        this.editor.putString( Storage.FireStoreLink,FireStoreLink );
         this.editor.commit();
     }
 
@@ -136,7 +136,7 @@ public class PrefManager {
     }
 
     public void SetDataBaseName(String DataBaseName) {
-        this.editor.putString( PrefManager.DataBaseName, DataBaseName );
+        this.editor.putString( Storage.DataBaseName, DataBaseName );
         this.editor.commit();
     }
 
@@ -145,7 +145,7 @@ public class PrefManager {
     }
 
     public void SetUserName(String UserName) {
-        this.editor.putString( PrefManager.UserName, UserName );
+        this.editor.putString( Storage.UserName, UserName );
         this.editor.commit();
     }
 
@@ -154,7 +154,7 @@ public class PrefManager {
     }
 
     public void SetDataBasePassword(String Password) {
-        this.editor.putString( PrefManager.Password, Password );
+        this.editor.putString( Storage.Password, Password );
         this.editor.commit();
     }
 
@@ -163,7 +163,7 @@ public class PrefManager {
     }
 
     public void SetIPAddress(String IPAddress) {
-        this.editor.putString( PrefManager.IPAddress, IPAddress );
+        this.editor.putString( Storage.IPAddress, IPAddress );
         this.editor.commit();
     }
 
@@ -172,7 +172,7 @@ public class PrefManager {
     }
 
     public void SetPort(String Port) {
-        this.editor.putString( PrefManager.Port, Port );
+        this.editor.putString( Storage.Port, Port );
         this.editor.commit();
     }
 

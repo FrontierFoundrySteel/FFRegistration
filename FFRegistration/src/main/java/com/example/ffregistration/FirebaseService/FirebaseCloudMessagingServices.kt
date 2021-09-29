@@ -15,7 +15,7 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 //import ff.steel.procurement.LogIn.Login
-import com.example.ffregistration.General.PrefManager
+import com.example.ffregistration.General.Storage
 
 
 class FirebaseCloudMessagingServices(cntxt: Context) : FirebaseMessagingService() {
@@ -33,7 +33,7 @@ class FirebaseCloudMessagingServices(cntxt: Context) : FirebaseMessagingService(
             Log.d("N_Notification","#555 "+remoteMessage.data.size)
             Log.d("N_Notification","#555 "+remoteMessage.data.get("message"))
             //remoteMessage.data.get("title")
-            sendNotification(PrefManager(context).GetName()+""+"", remoteMessage.data.get("body")+"")
+            sendNotification(Storage(context).GetName()+""+"", remoteMessage.data.get("body")+"")
 
         }
 
@@ -67,7 +67,7 @@ class FirebaseCloudMessagingServices(cntxt: Context) : FirebaseMessagingService(
             notificationManager.createNotificationChannel(notificationChannel)
         }
         val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-        val intent = Intent(this, PrefManager(applicationContext).GetPackageName()::class.java)
+        val intent = Intent(this, Storage(applicationContext).GetPackageName()::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         notificationBuilder.setAutoCancel(true)
