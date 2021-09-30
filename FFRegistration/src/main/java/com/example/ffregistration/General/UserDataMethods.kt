@@ -403,11 +403,11 @@ object UserDataMethods {
                             Toast.makeText(context, response.body()?.get(0)?.response + "", Toast.LENGTH_LONG).show()
 
                             //Log.d("UserNo","0 ${response.body()?.get(0)?.userid!!.length} ${response.body()?.get(0)?.userid}")
-                            Toast.makeText(context, "0 ${response.body()?.get(0)?.userid!!.length} ${response.body()?.get(0)?.userid}", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(context, "0 ${response.body()?.get(0)?.userid!!.length} ${response.body()?.get(0)?.userid}", Toast.LENGTH_LONG).show()
                             if(response.body()?.get(0)?.userid!!.length>0)
                             Storage(context).SetUserNo(response.body()?.get(0)?.userid)
 
-                            Log.d("UserNo","1 ${response.body()?.get(0)?.userid}")
+                            Log.d("UserNo","${response.body()?.get(0)?.userid}")
                             Toast.makeText(context, "${response.body()?.get(0)?.userid}", Toast.LENGTH_LONG).show()
                             UserIdTV.setText(Storage(context).GetUserNo())
                             z=response.body()?.get(0)?.response.toString()
