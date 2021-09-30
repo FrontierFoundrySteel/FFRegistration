@@ -256,14 +256,12 @@ object UserDataMethods {
         })
     }
 
-    fun updateHCMUserIDRetroCorou(context: Context,url: String) = CoroutineScope(Dispatchers.IO).launch {
+    fun updateOHEMUserIDRetroCorou(context: Context) = CoroutineScope(Dispatchers.IO).launch {
         try {
 
-            val updateHCMUserIDInterfaceService= ServiceBuilder(url).buildService(RetrofitInterfaces::class.java)
+            val updateHCMUserIDInterfaceService= ServiceBuilder(Storage(context).GetFireStoreLink()+"").buildService(RetrofitInterfaces::class.java)
             val response=updateHCMUserIDInterfaceService.updateHCMUserID(
-                Storage(
-                    context
-                ).GetFireStoreP()+"",
+                Storage(context).GetFireStoreP()+"",
                 Storage(context).GetEmpId()+"", getIMEI(context)+"")
 
             if(response.isSuccessful) {
@@ -291,15 +289,12 @@ object UserDataMethods {
         }
     }
 
-    fun sendNotificationRetroCorou(context: Context, HCMUserID: String, jobcardNo: String,url:String) = CoroutineScope(Dispatchers.IO).launch {
+    fun sendNotificationRetroCorou(context: Context, HCMUserID: String, AppID: String,Body:String,IsItPosition:String) = CoroutineScope(Dispatchers.IO).launch {
         try {
 
-            val updateHCMUserIDInterfaceService= ServiceBuilder(url).buildService(RetrofitInterfaces::class.java)
+            val updateHCMUserIDInterfaceService= ServiceBuilder(Storage(context).GetFireStoreLink()+"").buildService(RetrofitInterfaces::class.java)
             val response=updateHCMUserIDInterfaceService.sendNotification(
-                Storage(
-                    context
-                ).GetFireStoreP()+"",HCMUserID+"", "Jobcard ($jobcardNo) needs approval!",
-                Storage(context).GetName()+"")
+                Storage(context).GetFireStoreP()+"",HCMUserID+"", AppID+"",Body+"", Storage(context).GetName()+"",IsItPosition+"")
 
             if(response.isSuccessful) {
                 var notificationRespobody = response.body() // Use it or ignore it

@@ -27,7 +27,7 @@ interface RetrofitInterfaces {
      fun updateHCMUserID(@Query("password") password: String, @Query("HCMUserID") HCMUserID: String, @Query("DeviceIMEI") DeviceIMEI: String): Call<UserRegistrationResponseDataModel>
  */
     //IN USE
-    @GET("update_hcm_userid.php")
+    @GET("update_OHEMIdFK.php")
     suspend fun updateHCMUserID(@Query("password") password: String, @Query("HCMUserID") HCMUserID: String, @Query("DeviceIMEI") DeviceIMEI: String): Response<UserRegistrationResponseDataModel>
 
     //IN USE
@@ -55,13 +55,14 @@ interface RetrofitInterfaces {
                 @Field("password")  password:String): Call<List<UserRegistrationResponseDataModel>>
 
     @FormUrlEncoded
-    @POST("push_notification01.php") //UserRegistration.php ,
+    @POST("pushnotification.php") //UserRegistration.php ,
     suspend fun sendNotification(
             @Field("password") password: String
             ,@Field("HCMUserID")  HCMUserID: String,
-                         @Field("Body")  Body:String,
-                         @Field("HCMName")  HCMName:String): Response<UserRegistrationResponseDataModel>
-
+            @Field("AppID")  AppID:String,
+            @Field("Body")  Body:String,
+            @Field("HCMName")  HCMName:String,
+            @Field("IsItPosition")  IsItPosition:String): Response<UserRegistrationResponseDataModel>
 
     @FormUrlEncoded
     @PUT("destination/{id}")
