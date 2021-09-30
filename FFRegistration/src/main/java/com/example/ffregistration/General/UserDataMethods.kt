@@ -403,9 +403,11 @@ object UserDataMethods {
                             Storage(context).SetUserNo(response.body()?.get(0)?.userid)
 
                             Log.d("UserNo","${response.body()?.get(0)?.userid}")
-                            Toast.makeText(context, "${response.body()?.get(0)?.userid}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, "${response.body()?.get(0)?.userid}", Toast.LENGTH_SHORT).show()
                             UserIdTV.setText(Storage(context).GetUserNo())
                             z=response.body()?.get(0)?.response.toString()
+                            Toast.makeText(context, "${response.body()?.get(0)?.response}", Toast.LENGTH_LONG).show()
+
 
                         } else {
                             Toast.makeText(context, "Failed to Register!", Toast.LENGTH_LONG).show()
