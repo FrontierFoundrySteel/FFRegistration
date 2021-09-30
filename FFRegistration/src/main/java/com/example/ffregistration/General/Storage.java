@@ -119,6 +119,11 @@ public class Storage {
     public String GetEmpId() {
         return this.pref.getString( EmpId, "0" );
     }
+    public void SetEmpId(String EmpId)
+    {
+        this.editor.putString( Storage.EmpId,EmpId );
+        this.editor.commit();
+    }
 
     public String GetName() {
         return this.pref.getString( Name, "0" );
