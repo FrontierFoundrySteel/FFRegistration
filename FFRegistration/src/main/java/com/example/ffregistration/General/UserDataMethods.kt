@@ -297,8 +297,7 @@ object UserDataMethods {
                 Storage(context).GetFireStoreP()+"",HCMUserID+"", context.packageName+"",Body+"", Title+"",IsItPosition+"")
 
             if(response.isSuccessful) {
-                var notificationRespobody = response.body() // Use it or ignore it
-
+                var notificationRespobody = response.body() // Use it or ignore itadsf
                 Handler(Looper.getMainLooper()).post {
                     Toast.makeText(context, response.body()?.response + "!", Toast.LENGTH_LONG).show()
                 }
