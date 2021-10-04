@@ -289,12 +289,12 @@ object UserDataMethods {
         }
     }
 
-    fun sendNotificationRetroCorou(context: Context, HCMUserID: String, AppID: String,Body:String,IsItPosition:String) = CoroutineScope(Dispatchers.IO).launch {
+    fun sendNotificationRetroCorou(context: Context, HCMUserID: String, Title: String,Body:String,IsItPosition:String) = CoroutineScope(Dispatchers.IO).launch {
         try {
 
             val updateHCMUserIDInterfaceService= ServiceBuilder(Storage(context).GetFireStoreLink()+"").buildService(RetrofitInterfaces::class.java)
             val response=updateHCMUserIDInterfaceService.sendNotification(
-                Storage(context).GetFireStoreP()+"",HCMUserID+"", AppID+"",Body+"", Storage(context).GetName()+"",IsItPosition+"")
+                Storage(context).GetFireStoreP()+"",HCMUserID+"", context.packageName+"",Body+"", Title+"",IsItPosition+"")
 
             if(response.isSuccessful) {
                 var notificationRespobody = response.body() // Use it or ignore it
@@ -395,7 +395,7 @@ object UserDataMethods {
                             Log.d("Credentials", " $ip $db $un $password $port ${response.body()?.get(0)?.response}")
 
                             var newlyCreatedDestination = response.body() // Use it or ignore it
-                            Toast.makeText(context, response.body()?.get(0)?.response + "", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(context, response.body()?.get(0)?.response + "", Toast.LENGTH_LONG).show()
 
                             //Log.d("UserNo","0 ${response.body()?.get(0)?.userid!!.length} ${response.body()?.get(0)?.userid}")
                             //Toast.makeText(context, "0 ${response.body()?.get(0)?.userid!!.length} ${response.body()?.get(0)?.userid}", Toast.LENGTH_LONG).show()
@@ -403,7 +403,7 @@ object UserDataMethods {
                             Storage(context).SetUserNo(response.body()?.get(0)?.userid)
 
                             Log.d("UserNo","${response.body()?.get(0)?.userid}")
-                            Toast.makeText(context, "${response.body()?.get(0)?.userid}", Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(context, "${response.body()?.get(0)?.userid}", Toast.LENGTH_SHORT).show()
                             UserIdTV.setText(Storage(context).GetUserNo())
                             z=response.body()?.get(0)?.response.toString()
                             Toast.makeText(context, "${response.body()?.get(0)?.response}", Toast.LENGTH_LONG).show()

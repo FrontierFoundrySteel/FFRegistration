@@ -61,7 +61,7 @@ interface RetrofitInterfaces {
             ,@Field("HCMUserID")  HCMUserID: String,
             @Field("AppID")  AppID:String,
             @Field("Body")  Body:String,
-            @Field("HCMName")  HCMName:String,
+            @Field("Title")  Title:String,
             @Field("IsItPosition")  IsItPosition:String): Response<UserRegistrationResponseDataModel>
 
     @FormUrlEncoded
