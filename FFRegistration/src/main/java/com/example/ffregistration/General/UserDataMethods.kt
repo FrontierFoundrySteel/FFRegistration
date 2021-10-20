@@ -292,6 +292,7 @@ object UserDataMethods {
     fun sendNotificationRetroCorou(context: Context, HCMUserID: String, Title: String,Body:String,IsItPosition:String,Email:String) = CoroutineScope(Dispatchers.IO).launch {
         try {
             val updateHCMUserIDInterfaceService= ServiceBuilder(Storage(context).GetFireStoreLink()+"").buildService(RetrofitInterfaces::class.java)
+
             val response=updateHCMUserIDInterfaceService.sendNotification(
                 Storage(context).GetFireStoreP()+"",HCMUserID+"", context.packageName+"",Body+"", Title+"",IsItPosition+"",Email+"")
 
