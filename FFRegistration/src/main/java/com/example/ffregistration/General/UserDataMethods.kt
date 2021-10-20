@@ -289,12 +289,11 @@ object UserDataMethods {
         }
     }
 
-    fun sendNotificationRetroCorou(context: Context, HCMUserID: String, Title: String,Body:String,IsItPosition:String) = CoroutineScope(Dispatchers.IO).launch {
+    fun sendNotificationRetroCorou(context: Context, HCMUserID: String, Title: String,Body:String,IsItPosition:String,Email:String) = CoroutineScope(Dispatchers.IO).launch {
         try {
-
             val updateHCMUserIDInterfaceService= ServiceBuilder(Storage(context).GetFireStoreLink()+"").buildService(RetrofitInterfaces::class.java)
             val response=updateHCMUserIDInterfaceService.sendNotification(
-                Storage(context).GetFireStoreP()+"",HCMUserID+"", context.packageName+"",Body+"", Title+"",IsItPosition+"")
+                Storage(context).GetFireStoreP()+"",HCMUserID+"", context.packageName+"",Body+"", Title+"",IsItPosition+"",Email+"")
 
             if(response.isSuccessful) {
                 var notificationRespobody = response.body() // Use it or ignore itadsf

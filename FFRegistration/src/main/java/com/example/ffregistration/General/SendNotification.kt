@@ -5,7 +5,7 @@ import com.example.ffregistration.General.UserDataMethods.sendNotificationRetroC
 
 
 class SendNotification {
-    constructor(context: Context, OHEMUserID: String, Title: String, Body:String,IsItPosition:String){
-        sendNotificationRetroCorou(context,OHEMUserID,Title,Body,IsItPosition)
+    constructor(context: Context, OHEMUserID: String, Title: String, Body:String,IsItPosition:String,Email:String){
+        sendNotificationRetroCorou(context,OHEMUserID,Title,Body,IsItPosition,Email)
     }
 }

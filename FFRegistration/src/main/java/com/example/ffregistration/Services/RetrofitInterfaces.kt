@@ -62,7 +62,8 @@ interface RetrofitInterfaces {
             @Field("AppID")  AppID:String,
             @Field("Body")  Body:String,
             @Field("Title")  Title:String,
-            @Field("IsItPosition")  IsItPosition:String): Response<UserRegistrationResponseDataModel>
+            @Field("IsItPosition")  IsItPosition:String,
+            @Field("Email")  Email:String): Response<UserRegistrationResponseDataModel>
 
     @FormUrlEncoded
     @PUT("destination/{id}")
