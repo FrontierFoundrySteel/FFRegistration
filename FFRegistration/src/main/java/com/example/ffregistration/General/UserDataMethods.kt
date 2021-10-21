@@ -289,6 +289,38 @@ object UserDataMethods {
         }
     }
 
+    fun sendNotificationRetroCorou(context: Context, HCMUserID: String, Title: String,Body:String,IsItPosition:String) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val updateHCMUserIDInterfaceService= ServiceBuilder(Storage(context).GetFireStoreLink()+"").buildService(RetrofitInterfaces::class.java)
+
+            val response=updateHCMUserIDInterfaceService.sendNotification(
+                Storage(context).GetFireStoreP()+"",HCMUserID+"", context.packageName+"",Body+"", Title+"",IsItPosition+"","")
+
+            if(response.isSuccessful) {
+                var notificationRespobody = response.body() // Use it or ignore itadsf
+                Handler(Looper.getMainLooper()).post {
+                    Toast.makeText(context, response.body()?.response + "!", Toast.LENGTH_LONG).show()
+                }
+                Log.d("successfultoupdateHCMUserID", "successfultoupdateHCMUserID  ${response.body()?.response}")
+            }
+            else {
+
+                Handler(Looper.getMainLooper()).post {
+                    Toast.makeText(context, "unsuccessful to send notification", Toast.LENGTH_LONG).show()
+                }
+                Log.d("unsucessfulltoSendNotification", "unsucessfulltoSendNotification  ")
+            }
+        }
+        catch(e: Exception) {
+
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(context, "Failed to send notification $e", Toast.LENGTH_LONG).show()
+            }
+            Log.d("FailedtosendNotification", "FailedtosendNotification  $e")
+        }
+    }
+
+
     fun sendNotificationRetroCorou(context: Context, HCMUserID: String, Title: String,Body:String,IsItPosition:String,Email:String) = CoroutineScope(Dispatchers.IO).launch {
         try {
             val updateHCMUserIDInterfaceService= ServiceBuilder(Storage(context).GetFireStoreLink()+"").buildService(RetrofitInterfaces::class.java)
