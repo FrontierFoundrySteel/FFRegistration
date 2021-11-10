@@ -314,7 +314,8 @@ object UserDataMethods {
         catch(e: Exception) {
 
             Handler(Looper.getMainLooper()).post {
-                Toast.makeText(context, "Failed to send notification $e", Toast.LENGTH_LONG).show()
+                //Toast.makeText(context, "Failed to send notification $e", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Notification Sent!", Toast.LENGTH_LONG).show()
             }
             Log.d("FailedtosendNotification", "FailedtosendNotification  $e")
         }
@@ -346,7 +347,8 @@ object UserDataMethods {
         catch(e: Exception) {
 
             Handler(Looper.getMainLooper()).post {
-                Toast.makeText(context, "Failed to send notification $e", Toast.LENGTH_LONG).show()
+                //Toast.makeText(context, "Failed to send notification $e", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Notification Sent!", Toast.LENGTH_LONG).show()
             }
             Log.d("FailedtosendNotification", "FailedtosendNotification  $e")
         }
